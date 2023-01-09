@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Template Library</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div>
+        <h1>List of unapproved images</h1>
+        <form action = "#" th:action="@{/template-decision-submit}" method = "post" th:object="${unapprovedTemplateDto}">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Decision</th>
+                    </tr>
+                </thead>
+<!--            mv.addObject(memeTemplates)-->
+<!--            mv.addObject(id)-->
+                <tbody>
+                    <tr th:each="unapprovedImage,iter: *{memeTemplates}">
+                        <th scope="row" th:text = "${iter.count}"></th>
+                        <td>
+                            <img th:src="${unapprovedImage.getBase64()}" alt="..." class="img-thumbnail">
+                        </td>
+                        <td>
+                            <input hidden id = "id" th:field = "*{memeTemplates[__${iter.index}__].id}">
+                            <label for="cID"></label>
+                            <select required id = "cID" th:field = "*{memeTemplates[__${iter.index}__].categoryId}">
+                                <option th:value = "0" selected disabled hidden>Please Select</option>
+    <!--                            <option th:each = "category : ${#}">category-->
+                                <option th:value = "1" th:text = "c1"></option>
+                                <option th:value = "2" th:text = "c2"></option>
+                                <option th:value = "3" th:text = "c3"></option>
+                                <option th:value = "4" th:text = "c4"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for = "dID"></label>
+                            <select required id = "dID" th:field = "*{memeTemplates[__${iter.index}__].isApproved}">
+                                <option th:value = "NA" selected disabled hidden>Please Select</option>
+                                <option th:value = "accept" th:text = "Accept"></option>
+                                <option th:value = "reject" th:text = "Reject"></option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

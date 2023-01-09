@@ -1,0 +1,150 @@
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Create a Meme!</title>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+	<!-- Bootstrap JavaScript Bundle with Popper -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+	<script>
+		$(this).ready(function () {
+			function changeImage() {
+				var topText = $('#topText').val();
+				var bottomText = $('#bottomText').val();
+				var topDropdown = $('#topDropdown').val();
+				var bottomDropdown = $('#bottomDropdown').val();
+				var url = '/api/modify-image';
+				var originalImage = $('#originalImage').val();
+				var fontSize = $('#fontSize').val();
+				var topXCoordinate = $('#topXCoordinate').val();
+				var topYCoordinate = $('#topYCoordinate').val();
+				var bottomXCoordinate = $('#bottomXCoordinate').val();
+				var bottomYCoordinate = $('#bottomYCoordinate').val();
+				var data = {
+					memePicture: originalImage,
+					topColour: topDropdown,
+					bottomColour: bottomDropdown,
+					topText: topText,
+					bottomText: bottomText,
+					fontSize: parseFloat(fontSize),
+					topXCoordinate: parseInt(topXCoordinate),
+					topYCoordinate: parseInt(topYCoordinate),
+					bottomXCoordinate: parseInt(bottomXCoordinate),
+					bottomYCoordinate: parseInt(bottomYCoordinate)
+				};
+
+				$.ajax({
+					contentType: 'application/json;charset=UTF-8',
+					dataType: 'json',
+					type: 'POST',
+					cache: false,
+					processData: false,
+					url,
+					data: JSON.stringify(data)
+				}).always(function (jqXHR, textStatus, errorThrown) {
+					if (jqXHR.status == 200) {
+						var responseData = jqXHR.responseText;
+						$('#memeImage').attr('src', responseData);
+					}
+				});
+			}
+
+
+			$('#topText').keyup(function (x) {
+				changeImage();
+			});
+			$('#bottomText').keyup(function (x) {
+				changeImage();
+			});
+			$('#topDropdown').change(function (x) {
+				changeImage();
+			});
+			$('#bottomDropdown').change(function (x) {
+				changeImage();
+			});
+
+			$('#fontSize').change(function (x) {
+				changeImage();
+			});
+			$('#topXCoordinate').change(function (x) {
+				changeImage();
+			});
+			$('#topYCoordinate').change(function (x) {
+				changeImage();
+			});
+			$('#bottomXCoordinate').change(function (x) {
+				changeImage();
+			});
+			$('#bottomYCoordinate').change(function (x) {
+				changeImage();
+			});
+		});
+		function saveMeme() {
+			var memeId = $('#memeId').val();
+			var categoryId = $('#categoryId').val();
+			var memeImage = $('#memeImage').attr('src');
+			var url = '/api/save-meme';
+			$.post(url,
+				{
+					memeId, memeImage, categoryId
+				},
+				function (data, result) {
+					if (data == "SUCCESS") {
+						document.location = "/home";
+					}
+					alert(data);
+				});
+
+		}
+	</script>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<img class="col-md" th:src="${memeData.addText()}" align="center" id="memeImage" /><br />
+			<input type="hidden" name="originalImage" id="originalImage" th:value="${memeData.getMemePicture()}">
+			<input type="hidden" name="categoryId" id="categoryId" th:value="${categoryId}">
+			<input type="hidden" name="memeId" id="memeId" th:value="${memeId}">
+			<div class="col-md">
+				<label for="topText">Top Text</label>
+				<textarea class="form-control" id="topText"></textarea>
+				<label for="bottomText">Bottom Text</label>
+				<textarea class="form-control" id="bottomText"></textarea>
+
+				<label for="topDropdown">Top Dropdown</label>
+				<select class="form-control" name="category" id="topDropdown">
+					<option value="white">White</option>
+					<option value="black">Black</option>
+				</select>
+				<label for="bottomDropdown">Bottom Dropdown</label>
+				<select class="form-control" id="bottomDropdown">
+					<option value="white">White</option>
+					<option value="black">Black</option>
+				</select><br><br>
+				<label for="fontSize">Font Size</label>
+				<input type="number" class="form-control" id="fontSize" name="fontSize" value="15" />
+				<label for="topXCoordinate">Top Text X Coordinate</label>
+				<input type="number" class="form-control" id="topXCoordinate" name="topXCoordinate" value="50" />
+				<label for="topYCoordinate">Top Text Y Coordinate</label>
+				<input type="number" class="form-control" id="topYCoordinate" name="topYCoordinate" value="10" />
+				<label for="bottomXCoordinate">Bottom Text X Coordinate</label>
+				<input type="number" class="form-control" id="bottomXCoordinate" name="bottomXCoordinate" value="50" />
+				<label for="bottomYCoordinate">Bottom Text Y Coordinate</label>
+				<input type="number" class="form-control" id="bottomYCoordinate" name="bottomYCoordinate"
+					value="100" /><br><br>
+				<button type="button" class="btn btn-success" onClick="saveMeme()">Save Meme</button>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+</html>

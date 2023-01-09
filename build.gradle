@@ -1,0 +1,41 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id "io.freefair.lombok" version "6.5.0.3"
+}
+
+group = 'com.group5'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	'commons-codec:commons-codec:jar:1.15'
+
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	runtimeOnly 'mysql:mysql-connector-java'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation'org.springframework.boot:spring-boot-devtools'
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+	testCompileOnly 'org.projectlombok:lombok:1.18.24'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+	implementation 'commons-io:commons-io:2.11.0'
+	implementation 'javax.xml.bind:jaxb-api:2.2.4'
+	implementation 'org.passay:passay:1.6.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

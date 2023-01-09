@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meme Home Page</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .header__left img {
+      height: 40px;
+    }
+
+    .user__avatar {
+      border-radius: 50%;
+      width: 45px;
+    }
+
+    .header {
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      position: sticky;
+      background-color: white;
+      z-index: 100;
+      top: 0;
+      box-shadow: 0 5px 8px -9px rgba(0, 0, 0, 0.75);
+    }
+
+
+    /* sidebar  */
+
+    .sidebarRow {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      cursor: pointer;
+      color: blue;
+    }
+
+    .sidebarRow:hover {
+      background-color: lightskyblue;
+      border-radius: 10px;
+    }
+
+    .sidebarRow h4 {
+      margin-left: 20px;
+      font-weight: 600;
+    }
+
+    .sidebarRow .material-icons {
+      font-size: xx-large;
+      color: #2e81f4;
+    }
+
+
+
+    .main__body {
+      display: flex;
+    }
+
+    body {
+      background-color: #f1f2f5;
+    }
+
+    .feed {
+      flex: 1;
+      padding: 30px 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .sidebar {
+      padding: 25px 10px;
+      flex: 0.33;
+    }
+
+
+    .hide {
+      display: none;
+    }
+
+    .show {
+      display: block;
+    }
+
+    /* post */
+
+    .post {
+      width: 100%;
+      margin-top: 15px;
+      border-radius: 15px;
+      background-color: white;
+      box-shadow: 0px 5px 7px -7px rgba(0, 0, 0, 0.75);
+    }
+
+    .post__image img {
+      width: 100%;
+      height: 600px;
+    }
+
+    .post__top {
+      display: flex;
+      position: relative;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .post__avatar {
+      margin-right: 10px;
+    }
+
+    .post__topInfo h3 {
+      font-size: medium;
+    }
+
+    .post__topInfo p {
+      font-size: small;
+      color: gray;
+    }
+
+    .post__bottom {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding: 15px 25px;
+    }
+
+    .post__options {
+      padding-top: 10px;
+      border-top: 1px solid lightgray;
+      display: flex;
+      justify-content: space-evenly;
+      font-size: medium;
+      color: gray;
+      cursor: pointer;
+      padding: 15px;
+    }
+
+    .post__option {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      flex: 1;
+    }
+
+    .post__option p {
+      margin-left: 10px;
+    }
+
+    .post__option:hover {
+      background-color: #eff2f5;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .header__input input {
+        display: none;
+      }
+
+      .header__middle {
+        display: none;
+      }
+
+      .header__info {
+        display: none;
+      }
+
+      .widgets {
+        display: none;
+      }
+
+      .feed {
+        margin-top: 20px;
+        width: 100%;
+        padding: 0;
+      }
+
+    }
+
+    #userid,
+    #url,
+    #userid1,
+    #url1 {
+      visibility: hidden;
+    }
+
+
+    .container {
+      padding: 16px;
+    }
+
+    span.psw {
+      float: right;
+      padding-top: 16px;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      /* Stay in place */
+      z-index: 1;
+      /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      /* Full width */
+      height: 100%;
+      /* Full height */
+      overflow: auto;
+      /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0);
+      /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4);
+      /* Black w/ opacity */
+      padding-top: 60px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto 15% auto;
+      /* 5% from the top, 15% from the bottom and centered */
+      border: 1px solid #888;
+      width: 80%;
+      /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button (x) */
+    .close {
+      position: absolute;
+      right: 25px;
+      top: 0;
+      color: #000;
+      font-size: 35px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: red;
+      cursor: pointer;
+    }
+
+    /* Add Zoom Animation */
+    .animate {
+      -webkit-animation: animatezoom 0.6s;
+      animation: animatezoom 0.6s
+    }
+
+    @-webkit-keyframes animatezoom {
+      from {
+        -webkit-transform: scale(0)
+      }
+
+      to {
+        -webkit-transform: scale(1)
+      }
+    }
+
+    @keyframes animatezoom {
+      from {
+        transform: scale(0)
+      }
+
+      to {
+        transform: scale(1)
+      }
+    }
+
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+      span.psw {
+        display: block;
+        float: none;
+      }
+
+      .cancelbtn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <!-- main body starts -->
+  <div class="main__body">
+    <!-- sidebar starts -->
+    <div class="sidebar">
+
+
+      <a href="/user-profile">
+        <div class="sidebarRow">
+          <h4>User Profile</h4>
+        </div>
+      </a>
+
+      <a href="/meme-library">
+        <div class="sidebarRow">
+          <h4>Template Library</h4>
+        </div>
+      </a>
+      <a href="/explore-section">
+        <div class="sidebarRow">
+          <h4>Explore Section</h4>
+        </div>
+      </a>
+
+      <a href="/meme-competition">
+        <div class="sidebarRow">
+          <h4>Play Competition</h4>
+        </div>
+      </a>
+
+      <a href="/competitions">
+        <div class="sidebarRow">
+          <h4>Past Competitions</h4>
+        </div>
+      </a>
+
+      <a href="/user-settings">
+        <div class="sidebarRow">
+          <h4>Setting</h4>
+        </div>
+      </a>
+
+    </div>
+    <!-- sidebar ends -->
+
+    <!-- feed starts -->
+    <div class="feed">
+
+
+      <!-- post starts -->
+      <div class="post" th:each="image: ${images}">
+
+        <div class="post__top">
+          <img class="user__avatar post__avatar" th:src="${user.loadUser(image.getUserId()).getProfilePicture()}"
+            alt="" />
+          <div class="post__topInfo">
+            <a th:href="@{/user-profiles/{id}(id=${image.getUserId()})}">
+              <h3 th:text="${user.loadUser(image.getUserId()).getFirstname()}"></h3>
+            </a>
+          </div>
+        </div>
+
+        <div class="post__bottom">
+        </div>
+
+        <div class="post__image">
+          <img th:src="${image.getMemePicture()}" alt="" />
+        </div>
+
+        <div class="post__options">
+          <div class="post__option">
+            <!--                    <h3 th:text="${image.getMemeLikes()} + '-'"></h3>-->
+            <!--                    <form th:action="@{/explore-section-->
+            <!--                    <a th:href="@{/addLike/{id}(id=${image.getMemeId()})}">Like</a>-->
+
+            <form th:action="@{'/explore-section/like/6/' + ${image.getMemeId()}}" method="post">
+              <input type="text" id="userid" name="userId" th:value="6" aria-hidden="true" />
+              <input type="text" id="url" name="url" value="home" aria-hidden="true" />
+              <button type="submit">Like</button>
+            </form>
+
+          </div>
+
+          <div class="post__option">
+            <!--                    <a th:href="@{/comment/{id}(id=${image.getMemeId()})}">Comment</a>-->
+
+            <form th:action="@{'/explore-section/comment/6/' + ${image.getMemeId()}}" method="post">
+              <input type="text" id="userid1" name="userId" th:value="6" aria-hidden="true" />
+              <input type="text" id="url1" name="url" value="home" aria-hidden="true" />
+              <button type="submit">Comment</button>
+            </form>
+          </div>
+
+          <div class="post__option">
+
+            <a th:href="${image.getMemePicture()}" download="Meme.jpeg">Download</a>
+
+          </div>
+        </div>
+      </div>
+      <!-- post ends -->
+
+    </div>
+    <!-- feed ends -->
+
+
+  </div>
+  <!-- main body ends -->
+
+  <div id="fb-root"></div>
+  <script>
+
+    // Get the modal
+    var modal = document.getElementById('id01');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+
+
+
+
+  </script>
+</body>
+
+</html>

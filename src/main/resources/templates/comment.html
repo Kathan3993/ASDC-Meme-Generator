@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Comment</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div>
+<!--<form action="/commentStore" method="post">-->
+    <h1>Comments</h1>
+        <div class="col-sm" th:each="comment: ${comments}">
+            <h6 th:text="${comment.getCommentText()}"></h6>
+
+        </div>
+
+
+        <div>
+            <h4>Enter your comment: </h4>
+            <form action="/commentAdd">
+            <input type="text" th:name="comm"/>
+            <input type="hidden" th:name="memeid" th:value="${memeid}"/>
+            <input type="submit"/>
+            </form>
+
+        </div>
+
+
+
+
+
+    <button onclick="history.back()">Go Back</button>
+</div>
+
+
+
+</body>
+</html>

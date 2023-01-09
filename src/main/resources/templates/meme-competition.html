@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+        <style>
+            .imgChoice:hover{
+                cursor: pointer;
+            }
+        </style>
+    <title>Playing the Competition</title>
+    <script>
+
+        function addValue(memeId) {
+            var url = '/api/vote-meme';
+            $.post(url,
+                {
+                    memeId
+                },
+                function (data, result) {
+                    if (data == "SUCCESS") {
+                        window.location.reload();
+                    } else {
+                    }
+                });
+
+        }
+    </script>
+</head>
+
+<body>
+    <div class="row">
+        <h2 align="center" th:text="${competitionName}" />
+    </div>
+    <div class="row">
+        <img class="col-md imgChoice" th:attr="onclick=${'addValue('+memes.get(0).memeId+')'}"
+            th:src="${memes.get(0).memePicture}" />
+
+        <img class="col-md imgChoice" th:attr="onclick=${'addValue('+memes.get(1).memeId+')'}"
+            th:src="${memes.get(1).memePicture}" />
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Past Competitions and Winners</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- <div class="row">
+            <h2>Past Competitions and Winners</h2>
+            <div class="panel-group">
+                <div class="panel panel-primary" th:each="iter: ${memeCompetitions}">
+                    <div class="panel-heading" th:text="${iter.competitionName}" />
+                    <div class="panel-body">
+                        Winner ID:
+                        <p th:text="${iter.winnerId}" /><br />
+                        Winner Submission:<br>
+                        <img th:src="${iter.winnerMemeId}" />
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="card" style="width: 18rem;" th:each="iter,index: ${memeCompetitions}">
+            <img th:src="${winnerMemes.get(__${index.index}__)}" class="card-img-top" />
+            <div class="card-body">
+                <h5 class="card-title" th:text="${iter.getCompetitionName()}" />
+                <p class="card-text">Created by <span th:text="${names.get(__${index.index}__)}" />.</p>
+                <a th:href="'/explore-section/'+${iter.getWinnerMemeId()}" class="btn btn-primary">View Meme</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
